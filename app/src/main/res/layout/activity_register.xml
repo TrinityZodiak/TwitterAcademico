@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context=".RegisterActivity">
 
-    <io.github.florent37.shapeofview.shapes.ArcView
+    <com.github.florent37.shapeofview.shapes.ArcView
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:elevation="4dp"
@@ -31,6 +31,6 @@
             android:layout_marginTop="50dp"
             android:textSize="25dp"/>
 
-    </io.github.florent37.shapeofview.shapes.ArcView>
+    </com.github.florent37.shapeofview.shapes.ArcView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
