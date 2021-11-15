@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "938579614344",
+    "project_id": "twitteracademico",
+    "storage_bucket": "twitteracademico.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938579614344:android:17c23a8db12de2e1179d3d",
+        "android_client_info": {
+          "package_name": "com.example.twitteracademico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938579614344-9fp9br317669m258nan95b5377c6rt0j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.twitteracademico",
+            "certificate_hash": "a16aa82a7a0e67f108ad8872ed69e41e776184ab"
+          }
+        },
+        {
+          "client_id": "938579614344-uf4fu2o6aaeni8s4pth48k0d5m080d68.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYrJ_pFyQX8gTBsnLlfmqweXA7WN5LV2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938579614344-uf4fu2o6aaeni8s4pth48k0d5m080d68.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

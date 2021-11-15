@@ -64,6 +64,7 @@
                 android:layout_height="wrap_content" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre de usuario"
@@ -91,6 +92,7 @@
                 android:layout_height="wrap_content" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Correo electronico"
@@ -118,6 +120,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Contraseña"
@@ -145,6 +148,8 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
+
+                    android:id="@+id/textInputConfirmPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Confirma tu contraseña"
@@ -159,6 +164,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrarse"
