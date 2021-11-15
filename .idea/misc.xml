@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.3203125" />
         <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/rounded_button.xml" value="0.3203125" />
         <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_main.xml" value="0.2977777777777778" />
-        <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_register.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_register.xml" value="0.2977777777777778" />
       </map>
     </option>
   </component>
