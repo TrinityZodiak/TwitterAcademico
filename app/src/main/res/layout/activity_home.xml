@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".HomeActivity">
+    tools:context=".activities.HomeActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Inicio con google"
+        android:text="Aqui se supone va el menu principal :v"
         android:gravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
