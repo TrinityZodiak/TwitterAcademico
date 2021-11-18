@@ -19,10 +19,18 @@ import com.google.android.gms.auth.api.signin.SignInAccount;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private final int RC_SIGN_IN = 1;
     SignInButton mButtonGoogle;
+    FirebaseFirestore mFirestore;
 
 
     @Override
@@ -48,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
         mButtonLogin = findViewById(R.id.btnLogin);
         mAuth = FirebaseAuth.getInstance();
         mButtonGoogle = findViewById(R.id.btnLoginGoogle);
+        mFirestore = FirebaseFirestore.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("938579614344-9fp9br317669m258nan95b5377c6rt0j.apps.googleusercontent.com")
+                .requestIdToken("938579614344-uf4fu2o6aaeni8s4pth48k0d5m080d68.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -89,42 +99,90 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("ERROR", "Google sign in failed", e);
+                // ...
+            }
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
-        } catch (ApiException e) {
-            Toast.makeText(this, "Error al acceder via Google", Toast.LENGTH_LONG).show();
-        }
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            String id = mAuth.getCurrentUser().getUid();
+                            checkUserExist(id);
+                        }
+                        else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("ERROR", "signInWithCredential:failure", task.getException());
+                            Toast.makeText(MainActivity.this, "No se pudo iniciar sesion con google", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
     }
 
-    private void login(){
+    private void login() {
         String email = mTextInputEmail.getText().toString();
         String password = mTextInputPassword.getText().toString();
 
-
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
-                }else{
-                    Toast.makeText(MainActivity.this, "Usuario o Contrasela incorrectos", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "El email o la contraseña que ingresaste no son correctas", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        Log.d("Campo", "email: "+email);
-        Log.d("Campo", "password: "+password);
+        Log.d("CAMPO", "email: " + email);
+        Log.d("CAMPO", "password: " + password);
+    }
 
+    private void checkUserExist(final String id) {
+        mFirestore.collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    String email = mAuth.getCurrentUser().getEmail();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("email", email);
+                    mFirestore.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Intent intent = new Intent(MainActivity.this, CompleteProfileActivity.class);
+                                startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(MainActivity.this, "No se pudo almacenar la informacion del usuario", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
 }
