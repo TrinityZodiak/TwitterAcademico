@@ -3,6 +3,7 @@ package com.example.twitteracademico.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import dmax.dialog.SpotsDialog;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private final int RC_SIGN_IN = 1;
     SignInButton mButtonGoogle;
     UsersProvider mUsersProvider;
+    AlertDialog mDialog;
 
 
     @Override
@@ -61,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         mAuthProvider = new AuthProvider();
         mButtonGoogle = findViewById(R.id.btnLoginGoogle);
         mUsersProvider = new UsersProvider();
+        mDialog = new SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage("Espere un momento...")
+                .setCancelable(false).build();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("938579614344-uf4fu2o6aaeni8s4pth48k0d5m080d68.apps.googleusercontent.com")
@@ -118,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        mDialog.show();
 
         mAuthProvider.googleLogin(acct).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -127,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                             checkUserExist(id);
                         }
                         else {
+                            mDialog.dismiss();
                             // If sign in fails, display a message to the user.
                             Log.w("ERROR", "signInWithCredential:failure", task.getException());
                             Toast.makeText(MainActivity.this, "No se pudo iniciar sesion con google", Toast.LENGTH_SHORT).show();
@@ -140,9 +150,11 @@ public class MainActivity extends AppCompatActivity {
     private void login() {
         String email = mTextInputEmail.getText().toString();
         String password = mTextInputPassword.getText().toString();
+        mDialog.show();
         mAuthProvider.login(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                mDialog.dismiss();
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
@@ -161,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
+                    mDialog.dismiss();
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }
@@ -174,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                     mUsersProvider.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            mDialog.dismiss();
                             if (task.isSuccessful()) {
                                 Intent intent = new Intent(MainActivity.this, CompleteProfileActivity.class);
                                 startActivity(intent);
