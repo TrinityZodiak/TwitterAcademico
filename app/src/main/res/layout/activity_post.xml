@@ -45,6 +45,7 @@
                     app:cardCornerRadius="30dp">>
 
                     <ImageView
+                        android:id="@+id/imageViewPost1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/subirimagen"
@@ -61,6 +62,7 @@
                     app:cardCornerRadius="30dp">
 
                     <ImageView
+                        android:id="@+id/imageViewPost2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/subirimagen"
@@ -126,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
                     android:inputType="textMultiLine"
-                    android:maxLength="280"/>
+                    android:maxLength="200"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
