@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private final int RC_SIGN_IN = 1;
     SignInButton mButtonGoogle;
     UsersProvider mUsersProvider;
+    //AuthProvider mAuthProvider;
     AlertDialog mDialog;
 
 
@@ -76,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mUsersProvider = new UsersProvider();
+        //mAuthProvider = new AuthProvider();
 
         mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +102,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuthProvider.getUserSesion() != null) {
+            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private void signInGoogle(){
@@ -157,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 mDialog.dismiss();
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
                 else {

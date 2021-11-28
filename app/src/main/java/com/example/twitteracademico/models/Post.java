@@ -8,18 +8,20 @@ public class Post {
     private String idUser;
     private String image1;
     private String image2;
+    private long timestamp;
 
     public Post() {
 
     }
 
-    public Post(String id, String title, String description, String idUser, String image1, String image2) {
+    public Post(String id, String title, String description, String idUser, String image1, String image2, long timestamp) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.idUser = idUser;
         this.image1 = image1;
         this.image2 = image2;
+        this.timestamp = timestamp;
     }
 
     public String getId() {
@@ -69,4 +71,8 @@ public class Post {
     public void setImage2(String image2) {
         this.image2 = image2;
     }
+
+    public long getTimestamp() { return timestamp; }
+
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 }
