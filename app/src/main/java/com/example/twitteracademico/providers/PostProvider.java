@@ -3,6 +3,7 @@ package com.example.twitteracademico.providers;
 import com.example.twitteracademico.models.Post;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -19,11 +20,18 @@ public class PostProvider {
     }
 
     public Query getAll() {
-        return mCollection.orderBy("title", Query.Direction.DESCENDING);
+        return mCollection.orderBy("timestamp", Query.Direction.DESCENDING);
     }
 
     public Query getPostByUser(String id) {
         return mCollection.whereEqualTo("idUser", id);
     }
 
+    public Task<DocumentSnapshot>getPostById(String id){
+        return mCollection.document(id).get();
+    }
+
+    public Task<Void> delete (String id){
+        return mCollection.document(id).delete();
+    }
 }
