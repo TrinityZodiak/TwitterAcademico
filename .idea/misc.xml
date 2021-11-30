@@ -3,6 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/button_border.xml" value="0.1125" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.2203125" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.2203125" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/action_bar_toolbar.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_edit_profile.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_home.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_main.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_post.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_post_detail.xml" value="0.21945432977461446" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_post_detail2.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_register.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/activity_user_profile.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/cardview_comment.xml" value="0.25" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/cardview_my_post.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/cardview_post.xml" value="0.17889492753623187" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/fragment_chats.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/fragment_filters.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/fragment_profile.xml" value="0.15416666666666667" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/layout/slider_layout_item.xml" value="0.1" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/ASUS/AndroidStudioProjects/TwitterAcademico/app/src/main/res/menu/main_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.3203125" />
         <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/ic_profile.xml" value="0.3203125" />
         <entry key="..\:/Users/ferah/AndroidStudioProjects/TwitterAcademico/app/src/main/res/drawable/ic_tema.xml" value="0.3203125" />
