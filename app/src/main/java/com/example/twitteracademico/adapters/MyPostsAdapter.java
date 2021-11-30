@@ -63,6 +63,13 @@ public class MyPostsAdapter extends FirestoreRecyclerAdapter<Post, MyPostsAdapte
         holder.textViewRelativeTime.setText(relativeTime);
         holder.textViewTitle.setText(post.getTitle().toUpperCase());
 
+        if(post.getIdUser().equals(mAuthProvider.getUid())){
+            holder.imageViewDelete.setVisibility(View.VISIBLE);
+        }
+        else{
+            holder.imageViewDelete.setVisibility(View.GONE);
+        }
+
         if (post.getImage1() != null) {
             if (!post.getImage1().isEmpty()) {
                 Picasso.with(context).load(post.getImage1()).into(holder.circleImagePost);
@@ -83,6 +90,7 @@ public class MyPostsAdapter extends FirestoreRecyclerAdapter<Post, MyPostsAdapte
                 showConfirmDelete(postId);
             }
         });
+
 
     }
 

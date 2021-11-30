@@ -1,8 +1,10 @@
 package com.example.twitteracademico.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +27,8 @@ import com.example.twitteracademico.providers.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -46,6 +50,7 @@ public class ProfileFragment extends Fragment {
     TextView mTextViewPhone;
     TextView mTextViewEmail;
     TextView mTextViewPostNumber;
+    TextView mTextViewPostExist;
     ImageView mImageViewCover;
     CircleImageView mCircleImageProfile;
     RecyclerView mRecyclerView;
@@ -104,6 +109,7 @@ public class ProfileFragment extends Fragment {
         mTextViewEmail = mView.findViewById(R.id.textViewEmail);
         mTextViewPhone = mView.findViewById(R.id.textViewPhone);
         mTextViewPostNumber = mView.findViewById(R.id.textViewPostNumber);
+        mTextViewPostExist = mView.findViewById(R.id.textViewPostExist);
         mTextViewUsername = mView.findViewById(R.id.textViewUsername);
         mCircleImageProfile = mView.findViewById(R.id.circleImageProfile);
         mImageViewCover = mView.findViewById(R.id.imageViewCover);
@@ -125,8 +131,25 @@ public class ProfileFragment extends Fragment {
 
         getUser();
         getPostNumber();
-
+        checkIfExistPost();
         return mView;
+    }
+
+    private void checkIfExistPost() {
+        mPostProvider.getPostByUser(mAuthProvider.getUid()).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                int numberPost = queryDocumentSnapshots.size();
+                if(numberPost > 0){
+                    mTextViewPostExist.setText("publicaciones");
+                    mTextViewPostExist.setTextColor(Color.BLUE);
+                }
+                else{
+                    mTextViewPostExist.setText("no hay publicaciones");
+                    mTextViewPostExist.setTextColor(Color.GRAY);
+                }
+            }
+        });
     }
 
     @Override
