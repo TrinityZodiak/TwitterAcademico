@@ -34,4 +34,8 @@ public class PostProvider {
     public Task<Void> delete (String id){
         return mCollection.document(id).delete();
     }
+
+    public Query getPostByTitle(String title){
+        return mCollection.orderBy("title").startAt(title).endAt(title+'\uf8ff');
+    }
 }
