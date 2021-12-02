@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
         }else{
-            Toast.makeText(this, "Uno o mas campos esta vacio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Uno o mas campos estan vacios", Toast.LENGTH_SHORT).show();
         }
     }
 
