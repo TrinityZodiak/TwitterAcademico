@@ -20,8 +20,10 @@ import com.example.twitteracademico.R;
 import com.example.twitteracademico.activities.EditProfileActivity;
 import com.example.twitteracademico.adapters.MyPostsAdapter;
 import com.example.twitteracademico.adapters.PostsAdapter;
+import com.example.twitteracademico.models.Follow;
 import com.example.twitteracademico.models.Post;
 import com.example.twitteracademico.providers.AuthProvider;
+import com.example.twitteracademico.providers.FollowsProvider;
 import com.example.twitteracademico.providers.PostProvider;
 import com.example.twitteracademico.providers.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -58,6 +60,7 @@ public class ProfileFragment extends Fragment {
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
     PostProvider mPostProvider;
+    FollowsProvider mFollowsProvider;
 
     MyPostsAdapter mAdapter;
     // TODO: Rename parameter arguments, choose names that match
@@ -128,6 +131,7 @@ public class ProfileFragment extends Fragment {
         mUsersProvider = new UsersProvider();
         mAuthProvider = new AuthProvider();
         mPostProvider = new PostProvider();
+        mFollowsProvider = new FollowsProvider();
 
         getUser();
         getPostNumber();
@@ -162,6 +166,11 @@ public class ProfileFragment extends Fragment {
         mAdapter = new MyPostsAdapter(options,getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.startListening();
+
+        Query queryFollowers = mFollowsProvider.getFollowsByUser(mAuthProvider.getUid());
+        FirestoreRecyclerOptions<Follow> optionsFollows = new FirestoreRecyclerOptions.Builder<Follow>()
+                .setQuery(queryFollowers, Follow.class)
+                .build();
     }
 
     @Override
