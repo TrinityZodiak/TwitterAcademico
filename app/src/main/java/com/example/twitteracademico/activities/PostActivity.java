@@ -221,6 +221,8 @@ public class PostActivity extends AppCompatActivity {
                     }else{
                         if(mPhotoFile != null && mImageFile2 != null){
                             saveImage(mPhotoFile,mImageFile2);
+                        }else{
+                            Toast.makeText(this, "Debe de seleccionar al menos 2 fotos", Toast.LENGTH_LONG).show();
                         }
                     }
                 }
