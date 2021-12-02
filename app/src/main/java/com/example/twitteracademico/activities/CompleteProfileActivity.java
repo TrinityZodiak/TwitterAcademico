@@ -67,10 +67,10 @@ public class CompleteProfileActivity extends AppCompatActivity {
         String username = mTextInputUsername.getText().toString();
         String phone = mTextInputPhone.getText().toString();
 
-        if(!username.isEmpty() && !phone.isEmpty()){
+        if(!username.isEmpty()){
             updateUser(username, phone);
         }else{
-            Toast.makeText(this, "Uno o mas campos se encuentra vacio", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ingresa un nombre de usuario", Toast.LENGTH_SHORT).show();
         }
     }
 
