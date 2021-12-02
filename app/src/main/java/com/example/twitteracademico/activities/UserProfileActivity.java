@@ -1,5 +1,6 @@
 package com.example.twitteracademico.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,21 +12,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.twitteracademico.R;
 import com.example.twitteracademico.adapters.MyPostsAdapter;
+import com.example.twitteracademico.models.Follow;
 import com.example.twitteracademico.models.Post;
 import com.example.twitteracademico.providers.AuthProvider;
+import com.example.twitteracademico.providers.FollowsProvider;
 import com.example.twitteracademico.providers.PostProvider;
 import com.example.twitteracademico.providers.UsersProvider;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -36,15 +44,18 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView mTextViewPhone;
     TextView mTextViewEmail;
     TextView mTextViewPostNumber;
+    TextView mTextFollowers;
     ImageView mImageViewCover;
     CircleImageView mCircleImageProfile;
     CircleImageView mCircleImageViewBack;
     TextView mTextViewPostExist;
     RecyclerView mRecyclerView;
+    ImageView mImageViewFollow;
 
     UsersProvider mUsersProvider;
     AuthProvider mAuthProvider;
     PostProvider mPostProvider;
+    FollowsProvider mFollowsProvider;
 
     String mExtraIdUser;
     MyPostsAdapter mAdapter;
@@ -65,6 +76,8 @@ public class UserProfileActivity extends AppCompatActivity {
         mImageViewCover = findViewById(R.id.imageViewCover);
         mCircleImageViewBack = findViewById(R.id.circleImageBack);
         mTextViewPostExist = findViewById(R.id.textViewPostExist);
+        mTextFollowers = findViewById(R.id.textViewFollows);
+        mImageViewFollow = findViewById(R.id.imageViewFollow);
 
         mRecyclerView = findViewById(R.id.recyclerViewMyPost);
 
@@ -74,6 +87,7 @@ public class UserProfileActivity extends AppCompatActivity {
         mUsersProvider = new UsersProvider();
         mAuthProvider = new AuthProvider();
         mPostProvider = new PostProvider();
+        mFollowsProvider = new FollowsProvider();
 
         mExtraIdUser = getIntent().getStringExtra("idUser");
 
@@ -84,9 +98,74 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        mImageViewFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Follow follow = new Follow();
+                follow.setIdSeguidor(mAuthProvider.getUid());
+                follow.setIdSiguiendo(mExtraIdUser);
+                follow.setTimestamp(new Date().getTime());
+                follow(follow);
+                /*mFollowsProvider.create(follow).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(UserProfileActivity.this, "Siguiendo", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });*/
+            }
+        });
+
         getUser();
         getPostNumber();
+        getNumberFollows();
         checkIfExistPost();
+
+        checkIfExistFollow();
+    }
+
+    private void follow(Follow follow){
+        System.out.println(mAuthProvider.getUid());
+        mFollowsProvider.getFollowByUsers(follow.getIdSiguiendo(), mAuthProvider.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numberDocuments = queryDocumentSnapshots.size();
+                if(numberDocuments > 0){
+                    String idFollow = queryDocumentSnapshots.getDocuments().get(0).getId();
+                    mImageViewFollow.setImageResource(R.mipmap.icon_follow);
+                    mFollowsProvider.delete(idFollow);
+                }
+                else{
+                    mImageViewFollow.setImageResource(R.mipmap.icon_unfollow);
+                    mFollowsProvider.create(follow);
+                }
+            }
+        });
+    }
+
+    private void checkIfExistFollow() {
+        mFollowsProvider.getFollowByUsers(mExtraIdUser,mAuthProvider.getUid()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                int numberDocuments = queryDocumentSnapshots.size();
+                if(numberDocuments > 0){
+                    mImageViewFollow.setImageResource(R.mipmap.icon_unfollow);
+                }else{
+                    mImageViewFollow.setImageResource(R.mipmap.icon_follow);
+                }
+            }
+        });
+    }
+
+    private void getNumberFollows() {
+        mFollowsProvider.getFollowsByUser(mExtraIdUser).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                int numberFollowers = value.size();
+                mTextFollowers.setText(numberFollowers + " Seguidores");
+            }
+        });
     }
 
     @Override
