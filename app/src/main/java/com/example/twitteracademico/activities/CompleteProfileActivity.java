@@ -67,10 +67,10 @@ public class CompleteProfileActivity extends AppCompatActivity {
         String username = mTextInputUsername.getText().toString();
         String phone = mTextInputPhone.getText().toString();
 
-        if(!username.isEmpty()){
+        if(!username.isEmpty() && !phone.isEmpty()){
             updateUser(username, phone);
         }else{
-            Toast.makeText(this, "Ingresa un nombre de usuario", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Uno o mas campos se encuentra vacio", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -79,7 +79,7 @@ public class CompleteProfileActivity extends AppCompatActivity {
         User user = new User();
         user.setId(id);
         user.setUsername(username);
-        user.setPhone(username);
+        user.setPhone(phone);
         user.setTimestamp(new Date().getTime());
 
         mDialog.show();
